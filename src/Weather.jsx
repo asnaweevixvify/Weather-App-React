@@ -1,19 +1,38 @@
 import { useState , useEffect } from 'react'
 import './App.css'
+import Swal from 'sweetalert2'
 
 function Weather(){
-    const city = 'bangkok'
+    const [city,setCity] = useState('bangkok')
     const country = 'th'
     const key = 'f65dd5dbca64eead86e87f1dec1160d3'
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=metric&appid=${key}`
     const [data,setData] = useState('')
-    useEffect(()=>{
+    function getData(){
         fetch(url)
-        .then(res=>res.json())
-        .then(json=>setData(json))
+            .then(res=>res.json())
+            .then(json=>{
+                if (json.cod === 200) {
+                    setData(json)
+                } else {
+                    setData(null)
+                    Swal.fire({
+                        icon: "error",
+                        text: "ไม่พบชื่อเมือง กรุณากรอกใหม่!",
+                      });
+                }
+            })
+    }
+    useEffect(()=>{
+        getData()
     },[])
+    function setInput(e){
+        setCity(e.target.value)
+    }
     return(
         <div className='weather-container'>
+            <input type='text' onInput={setInput}></input>
+            <i className="fa-solid fa-magnifying-glass fa-2xl" onClick={getData}></i>
             {data ? (   
                 <>
                     <h2>{data.name}</h2>
