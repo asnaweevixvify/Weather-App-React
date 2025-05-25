@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 function Weather(){
     const [city,setCity] = useState('bangkok')
     const country = 'th'
-    const key = 'f65dd5dbca64eead86e87f1dec1160d3'
+    const key = ''
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=metric&appid=${key}`
     const [data,setData] = useState('')
     function getData(){
